@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP  make_pair
+#define s	 second
+#define f  first
+
+const int OO = (int) 1e9;
+
+long long t,BallNumber, npegs, flag, check;
+vector<int> pegsLine;
+
+int main() {
+	cin >> t;
+	while (t--) {
+		cin >> npegs;
+		pegsLine.clear();
+
+		for (BallNumber = 1; sz(pegsLine) <= npegs; BallNumber++) {
+			if (BallNumber >= 1000000000) {
+				break;
+			}
+			flag = 0;
+			for (int j = 0; j < sz(pegsLine); j++) {
+				check = pegsLine[j] + BallNumber;
+				if ((((int) sqrt(check) * (int) sqrt(check))) == check) {
+					flag = 1;
+					pegsLine[j] = BallNumber;
+				}
+			}
+			if (!flag && sz(pegsLine) == npegs) {
+				BallNumber--;
+				break;
+			}
+			if (!flag && sz(pegsLine) <= npegs) {
+				pegsLine.push_back(BallNumber);
+			}
+		}
+		if (BallNumber < 1000000000) {
+			cout << BallNumber << endl;
+		} else {
+			cout << -1 << endl;
+		}
+	}
+
+	return 0;
+}
