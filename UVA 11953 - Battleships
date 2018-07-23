@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long n, m, test, t, cnt;
+vector<string> paper;
+string r;
+bool vis[109][109];
+
+bool valid(int i, int j) {
+	return i >= 0 && i < sz(paper) && j >= 0 && j < sz(paper[i]);
+}
+
+bool checkChar(char c) {
+	return (c != 'x' && c != '@');
+}
+
+void DFS(int i, int j) {
+	if (!valid(i, j) || vis[i][j] || checkChar(paper[i][j])) {
+		return;
+	}
+
+	vis[i][j] = 1;
+	for (int x = 0; x < 4; x++) {
+		DFS(i + dx[x], j + dy[x]);
+	}
+
+	return;
+}
+
+int main() {
+	cin >> test;
+	t = 0;
+	while (test--) {
+		t++;
+		cin >> m;
+
+		paper.clear();
+		clr(vis,0);
+		cnt = 0;
+
+		for (int i = 0; i < m; i++) {
+			cin >> r;
+			paper.push_back(r);
+		}
+
+		for (int i = 0; i < sz(paper); i++) {
+			for (int j = 0; j < sz(paper[i]); j++) {
+				if (paper[i][j] == 'x' && !vis[i][j]) {
+					DFS(i, j);
+					cnt++;
+				}
+			}
+		}
+		cout << "Case " << t << ": " << cnt << endl;
+	}
+	return 0;
+}
