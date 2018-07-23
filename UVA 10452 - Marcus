@@ -1,0 +1,88 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long n, m, test, cnt, rows, flag;
+vector<string> maps, road;
+string r;
+bool vis[30][30];
+
+bool valid(int i, int j) {
+	return i >= 0 && i < sz(maps) && j >= 0 && j < sz(maps[i]);
+}
+
+bool checkChar(char c) {
+	return (c != 'I' && c != 'E' && c != 'H' && c != 'O' && c != 'V' && c
+			!= 'A' && c != '@' && c != '#');
+}
+
+void DFS(int i, int j, int lasti, int lastj) {
+	if (!valid(i, j) || vis[i][j] || checkChar(maps[i][j])) {
+		return;
+	}
+
+	if (i == lasti && j == (lastj + 1)) {
+		road.push_back("right");
+	} else if (i == lasti && j == (lastj - 1)) {
+		road.push_back("left");
+	} else if (i == (lasti - 1) && j == lastj) {
+		road.push_back("forth");
+	}
+
+	vis[i][j] = 1;
+
+	for (int x = 0; x < 3; x++) {
+		DFS(i + dx[x], j + dy[x], i, j);
+	}
+	return;
+}
+int main() {
+	cin >> test;
+	while (test--) {
+		
+		cin >> m >> n;
+		
+		maps.clear();
+		road.clear();
+		clr(vis,0);
+		flag = 0;
+		
+		for (int i = 0; i < m; i++) {
+			cin >> r;
+			maps.push_back(r);
+		}
+		
+		for (int i = 0; i < sz(maps) && flag == 0; i++) {
+			for (int j = 0; j < sz(maps[i]) && flag == 0; j++) {
+				if (maps[i][j] == '@') {
+					DFS(i, j, i, j);
+					flag = 1;
+				}
+			}
+		}
+		
+		for (int i = 0; i < sz(road); i++) {
+			cout << road[i];
+			if (i != sz(road) - 1) {
+				cout << " ";
+			}
+		}
+		cout << endl;
+		
+	}
+	return 0;
+}
