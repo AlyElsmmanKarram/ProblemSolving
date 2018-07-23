@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, 1, -1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long test, cnt, rows;
+vector<string> image;
+string r;
+bool vis[30][30];
+bool valid(int i, int j) {
+	return i >= 0 && i < sz(image) && j >= 0 && j < sz(image[i]);
+}
+void DFS(int i, int j) {
+	if (!valid(i, j) || vis[i][j] || image[i][j] != '1') {
+		return;
+	}
+	vis[i][j] = 1;
+	for (int x = 0; x < 8; x++) {
+		DFS(i + dx[x], j + dy[x]);
+	}
+	return;
+}
+int main() {
+
+	while (cin >> rows) {
+		test++;
+		image.clear();
+		clr(vis,0);
+		cnt = 0;
+		for (int i = 0; i < rows; i++) {
+			cin >> r;
+			image.push_back(r);
+		}
+		for (int i = 0; i < sz(image); i++) {
+			for (int j = 0; j < sz(image[i]); j++) {
+				if (image[i][j] == '1' && !vis[i][j]) {
+					DFS(i, j);
+					cnt++;
+				}
+			}
+		}
+		cout << "Image number " << test << " contains " << cnt
+				<< " war eagles." << endl;
+	}
+	return 0;
+}
