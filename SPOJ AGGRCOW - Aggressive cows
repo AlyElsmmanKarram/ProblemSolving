@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long n, test, cows;
+vector<int> stalls;
+
+bool check(long long distance) {
+
+	long long cur = stalls[0];
+  long long cnt = 1;
+  
+	for (int i = 1; i < n; i++) {
+		if (stalls[i] - cur >= distance) {
+			cnt++;
+			cur = stalls[i];
+		}
+	}
+
+	if (cnt >= cows) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+int BSmax(long long start, long long end) {
+	long long mid;
+	while (start < end) {
+		mid = start + (end - start + 1) / 2;
+		if (check(mid)) {
+			start = mid;
+		} else {
+			end = mid - 1;
+		}
+	}
+	return start;
+}
+
+int main() {
+
+	cin >> test;
+	while (test--) {
+		stalls.clear();
+		cin >> n >> cows;
+		stalls.resize(n);
+
+		for (int i = 0; i < n; i++) {
+			cin >> stalls[i];
+		}
+
+		sort(all(stalls));
+
+		cout << BSmax(1, 1000000009) << endl;
+	}
+	return 0;
+}
