@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+double a, b, c, d, x, y;
+string input;
+bool f;
+char r;
+vector<pair<pair<double, double> , pair<double, double>>> rect;
+vector<pair<double, double> > point;
+
+int main() {
+
+	while (getline(cin, input)) {
+		if (input == "*") {
+			break;
+		}
+		istringstream s(input);
+		s >> r >> a >> b >> c >> d;
+		rect.push_back(MP(MP(a, b), MP(c, d)));
+	}
+	
+	while (cin >> x >> y && !(x == 9999.9 && y == 9999.9)) {
+		point.push_back(MP(x, y));
+	}
+
+	for (int i = 0; i < sz(point); i++) {
+		f = 0;
+		for (int j = 0; j < sz(rect); j++) {
+			if (point[i].f > rect[j].f.f && point[i].f < rect[j].s.f
+					&& point[i].s < rect[j].f.s && point[i].s > rect[j].s.s) {
+				cout << "Point " << i + 1 << " is contained in figure " << j
+						+ 1 << endl;
+				f = 1;
+			}
+		}
+		if (!f) {
+			cout << "Point " << i + 1 << " is not contained in any figure"
+					<< endl;
+		}
+	}
+
+	return 0;
+}
