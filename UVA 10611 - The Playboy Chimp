@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long n, m, mn, mx, need;
+vector<int> ladys, querys;
+
+long long BSmin(long long start, long long end) {
+	long long mid;
+	while (start < end) {
+		mid = start + (end - start + 1) / 2;
+		if (ladys[mid] >= need) {
+			end = mid - 1;
+		} else {
+			start = mid;
+		}
+	}
+	return ladys[end];
+}
+
+long long BSmax(long long start, long long end) {
+	long long mid;
+	while (start < end) {
+		mid = start + (end - start ) / 2;
+		if (ladys[mid] <= need) {
+			start = mid+1;
+		} else  {
+			end = mid;
+		}
+	}
+	return ladys[start];
+}
+
+int main() {
+	cin >> n;
+	ladys.resize(n);
+	for (int i = 0; i < n; i++) {
+		cin >> ladys[i];
+	}
+  
+	cin >> m;
+	querys.resize(m);
+	for (int i = 0; i < m; i++) {
+		cin >> querys[i];
+	}
+  
+	for (int i = 0; i < m; i++) {
+		need = querys[i];
+		mn = BSmin(0, sz(ladys) - 1);
+		mx = BSmax(0, sz(ladys) - 1);
+
+		if (mn < need) {
+			cout << mn << " ";
+		} else {
+			cout << "X" << " ";
+		}
+
+		if (mx > need) {
+			cout << mx << endl;
+		} else {
+			cout << "X" << endl;
+		}
+	}
+
+	return 0;
+}
