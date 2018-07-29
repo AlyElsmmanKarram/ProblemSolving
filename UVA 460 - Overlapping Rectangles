@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long a1, a2, b1, b2, c1, c2, d1, d2, t;
+
+int main() {
+	cin >> t;
+	while (t--) {
+
+		cin >> a1 >> b1 >> c1 >> d1;
+		cin >> a2 >> b2 >> c2 >> d2;
+
+		if (a1 >= c2 || b1 >= d2 || a2 >= c1 || b2 >= d1) {
+			cout << "No Overlap" << endl;
+		} else {
+			cout << max(a1, a2) << " " << max(b1, b2) << " " << min(c1, c2)
+					<< " " << min(d1, d2) << endl;
+		}
+
+		if (t) {
+			cout << endl;
+		}
+
+	}
+	return 0;
+}
