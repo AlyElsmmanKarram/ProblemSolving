@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+///////////////////////////////////////////////////////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v.rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+
+const int OO = (int) 1e6;
+
+long long n, m, ans, r, c;
+string a, b;
+map<string, vector<string>> adjlist;
+map<string, bool> vis;
+map<string, string> par;
+vector<string> path;
+vector<string> ex;
+
+void BFS(string s, string d) {
+	queue < string > q;
+	par.clear();
+	q.push(s);
+	par[s] = ".";
+	vis[s] = 1;
+	int sz = 1;
+	bool ok = 1;
+	for (; ok && !q.empty(); sz = sz(q)) {
+		while (sz--) {
+			string cur = q.front();
+			q.pop();
+			ex = adjlist[cur];
+			for (int i = 0; i < sz(ex); i++) {
+				if (!vis[ex[i]]) {
+					q.push(ex[i]);
+					vis[ex[i]] = 1;
+					par[ex[i]] = cur;
+				}
+				if (cur == d) {
+					ok = 0;
+					break;
+				}
+			}
+		}
+	}
+	while (d != ".") {
+		path.push_back(d);
+		d = par[d];
+	}
+	reverse(all(path));
+	for (int i = 0; i < sz(path); i++) {
+		cout << path[i][0];
+	}
+	cout << endl;
+	return;
+}
+
+int main() {
+	int t;
+
+	cin >> t;
+	while (t--) {
+		adjlist.clear();
+		cin >> n >> m;
+
+		for (int i = 0; i < n; i++) {
+			cin >> a >> b;
+			adjlist[a].push_back(b);
+			adjlist[b].push_back(a);
+		}
+
+		for (int i = 0; i < m; i++) {
+			cin >> a >> b;
+			vis.clear();
+			par.clear();
+			path.clear();
+			BFS(a, b);
+		}
+		if (t)
+			cout << endl;
+	}
+
+	return 0;
+}
