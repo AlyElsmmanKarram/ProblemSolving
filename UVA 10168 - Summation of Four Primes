@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long n = 10000001, m, ans, x, e = 1, odd = 1;
+
+vector<long long> isPrime(n, 1);
+vector<long long> primes;
+vector<pair<long long, long long> > pairs;
+
+void sieve() {
+	isPrime[0] = isPrime[1] = 0;
+	for (long long i = 2; i * i < n; i++) {
+		if (isPrime[i]) {
+			for (long long j = i * 2; j < n; j += i) {
+				isPrime[j] = 0;
+			}
+		}
+	}
+}
+
+int main() {
+	sieve();
+
+	while (cin >> x) {
+		e = odd = 1;
+		if (x < 8) {
+			cout << "Impossible." << endl;
+		} else {
+			if (x % 2 == 0) {
+				x -= 4;
+				odd = 0;
+			} else {
+				x -= 5;
+			}
+			for (int i = x - 1; i >= 2 && e; i--) {
+				if (isPrime[i]) {
+					if (isPrime[x - i]) {
+						if (odd) {
+							e = 0;
+							cout << "2 3 " << i << " " << x - i << endl;
+						} else {
+							e = 0;
+							cout << "2 2 " << i << " " << x - i << endl;
+						}
+					}
+				}
+			}
+		}
+	}
+  
+	return 0;
+}
