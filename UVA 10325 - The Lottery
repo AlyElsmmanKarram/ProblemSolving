@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long n, m, ans;
+vector<long long> a;
+
+long long gcd(long long a, long long b) {
+	return b == 0 ? a : gcd(b, a % b);
+}
+long long lcm(long long a, long long b) {
+	return (a * b / gcd(a, b));
+}
+
+long long Sum(long long idx, long long d = 1, long long sign = 1) {
+	if (idx == m) {
+		return sign * n / d;
+	}
+	return Sum(idx + 1, d, sign) + Sum(idx + 1, lcm(d, a[idx]), sign * -1);
+  
+  //lcm between two numbers to get the numbers which is divisible by these two numbers 
+  //ex : n=100 , m=2, 4,6
+  //so we get 100/4 + 100/6 - 100/(lcm(6,4)) 
+  
+}
+
+int main() {
+	while (cin >> n >> m) {
+		a.resize(m);
+		for (int i = 0; i < m; i++) {
+			cin >> a[i];
+		}
+		cout << Sum(0) << endl;
+		a.clear();
+	}
+	return 0;
+}
