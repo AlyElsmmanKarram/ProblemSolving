@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("in.txt","r",stdin);
+#define out freopen("out.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset(v, d, sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+
+const int OO = (int) 1e9;
+
+int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
+int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+long long n, m, t;
+string bt[200];
+int dis[200][200];
+
+queue<pair<int, int> > q;
+
+bool valid(int i, int j) {
+	return (i >= 0 && i < n && j >= 0 && j < m);
+}
+
+void BFS() {
+	int a, b, c, d;
+	while (!q.empty()) {
+		a = q.front().f, b = q.front().s;
+		q.pop();
+		for (int x = 0; x < 4; x++) {
+			c = a + dx[x];
+			d = b + dy[x];
+			if (valid(c, d) && dis[c][d] > dis[a][b] + 1) {
+				dis[c][d] = dis[a][b] + 1;
+				q.push( { c, d });
+			}
+		}
+	}
+	return;
+}
+
+int main() {
+	cin >> t;
+	while (t--) {
+		cin >> n >> m;
+		for (int i = 0; i < n; i++) {
+			cin >> bt[i];
+			for (int j = 0; j < m; j++) {
+				if (bt[i][j] == '1') {
+					dis[i][j] = 0;
+					q.push( { i, j });
+				} else {
+					dis[i][j] = 1000;
+				}
+			}
+		}
+		BFS();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				cout << dis[i][j] << " ";
+			}
+			cout << endl;
+		}
+		cout << endl;
+	}
+	return 0;
+}
