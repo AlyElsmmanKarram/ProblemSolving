@@ -16,7 +16,7 @@ const int OO = (int) 1e9;
 int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
 int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
 
-long long R, C, t, keys, newKeys, ans, k, l, m, n;
+long long R, C, ans;
 string grid[101];
 int dis[101][101][16];
 bool vis[101][101][16];
@@ -33,6 +33,7 @@ bool CheckC(char c, int K) {
 }
 
 void BFS() {
+	long long keys, newKeys, k, l, m, n;
 	char c;
 	while (!q.empty()) {
 		k = q.front().f.f, l = q.front().f.s, keys = newKeys = q.front().s;
@@ -56,13 +57,18 @@ void BFS() {
 		for (int x = 0; x < 4; x++) {
 			m = k + dx[x];
 			n = l + dy[x];
-			c = grid[m][n];
-			if (valid(m, n) && !vis[m][n][newKeys] && CheckC(c, newKeys)) {
-				dis[m][n][newKeys] = dis[k][l][keys] + 1;
-				vis[m][n][newKeys] = 1;
-				q.push( { { m, n }, newKeys });
+			if (valid(m, n) && !vis[m][n][newKeys]) {
+				c = grid[m][n];
+				if (CheckC(c, newKeys)) {
+					dis[m][n][newKeys] = dis[k][l][keys] + 1;
+					vis[m][n][newKeys] = 1;
+					q.push( { { m, n }, newKeys });
+				}
 			}
 		}
+	}
+	while (!q.empty()) {
+		q.pop();
 	}
 }
 
@@ -70,10 +76,6 @@ int main() {
 	while ((cin >> R >> C) && (R || C)) {
 		ans = -1;
 		clr(vis,0), clr(dis,0);
-		while (!q.empty()) {
-			q.pop();
-		}
-		
 		for (int i = 0; i < R; i++) {
 			cin >> grid[i];
 			for (int j = 0; j < C; j++) {
