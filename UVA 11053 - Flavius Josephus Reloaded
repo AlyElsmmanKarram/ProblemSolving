@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define in freopen("input.txt","r",stdin);
+#define out freopen("output.txt","w",stdout);
+#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
+#define sz(v) ((long long)((v).size()))
+#define all(v) ((v).begin()),((v).end())
+#define allr(v) ((v).rbegin()),((v).rend())
+#define clr(v, d) memset((v), (long long)(d), sizeof(v))
+#define MP make_pair
+#define s  second
+#define f  first
+#define endl "\n"
+#define LL long long
+#define LD long double
+#define PI 3.14159265
+
+int main() {
+	long long n, a, b, x, die;
+	map<LL, LL> cnt;
+
+	while (cin >> n && n != 0) {
+		cin >> a >> b;
+		x = 0;
+		die = 0;
+		cnt[x]++;
+		x =  ((((((a % n) * (x % n)) % n) * (x % n)) % n + (b % n)) % n);
+		while (cnt[x] != 3) {
+			if (cnt[x] == 1) {
+				cnt[x]++;
+				die++;
+			}
+			
+			cnt[x]++;
+			x = ((((((a % n) * (x % n)) % n) * (x % n)) % n + (b % n)) % n);
+		}
+		cout << n - die << endl;
+    cnt.clear();
+	}
+
+	return 0;
+}
