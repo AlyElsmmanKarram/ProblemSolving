@@ -1,0 +1,27 @@
+#include<iostream>
+
+using namespace std;
+
+int main() {
+	int n, m, c, count;
+
+	while (cin >> n >> m >> c && n != 0) {
+		count = 0;
+		if (c == 0) {
+			n--;
+			count += (((n - 6) / 2) * ((m - 6) / 2));
+
+			n++, m--;
+			count += (((n - 6) / 2) * ((m - 6) / 2));
+
+		} else {
+			count += (((n - 6) / 2) * ((m - 6) / 2));
+
+			n--, m--;
+			count += (((n - 6) / 2) * ((m - 6) / 2));
+		}
+
+		cout << count << endl;
+	}
+	return 0;
+}
