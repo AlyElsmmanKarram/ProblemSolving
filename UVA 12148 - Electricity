@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+
+int main() {
+	int year[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	int leap_year[13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	int n, d = 0, m = 0, y = 0, c = 0;
+  
+	while (cin >> n && n != 0) {
+		int last_c = 0, next_d = 0, next_m = 0, next_y = 0;
+		int continuous_days = 0, consumption = 0;
+    
+		while (n--) {
+			cin >> d >> m >> y >> c;
+			if (d == next_d && m == next_m && y == next_y) {
+				continuous_days++, consumption += (c - last_c);
+			}
+			last_c = c;
+			if (y % 4 == 0) { //finding next day;//leap year
+				next_d = ++d, next_m = m, next_y = y;
+
+				if (leap_year[m] < next_d) {
+					next_m++, next_d = 1;
+				}
+				if (next_m > 12) {
+					next_y = ++y, next_m = 1;
+				}
+
+			} else { //normal year
+				next_d = ++d, next_m = m, next_y = y;
+
+				if (year[m] < next_d) {
+					next_m++, next_d = 1;
+				}
+				if (next_m > 12) {
+					next_y = ++y, next_m = 1;
+				}
+			}
+		}
+		cout << continuous_days << " " << consumption << endl;
+	}
+	return 0;
+}
