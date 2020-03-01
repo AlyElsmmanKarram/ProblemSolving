@@ -1,0 +1,43 @@
+#include<iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+	unsigned long long STEP, MOD;
+	int seed[100001];		//starting with a[0]=0;
+	bool vis[100001];
+
+	while (cin >> STEP >> MOD) {
+		for (unsigned int i = 0; i < MOD; i++) {		//clear
+			seed[i] = 0;
+			vis[i] = 0;
+		}
+
+		for (unsigned int i = 0; i < MOD; i++) {
+			seed[i + 1] = (seed[i] + STEP) % MOD;
+		}
+
+		for (unsigned int i = 0; i < MOD; i++) {
+			vis[seed[i]] = 1;
+		}
+
+		bool bad = 0;
+		for (unsigned int i = 0; i < MOD; i++) {
+			if (vis[i] != 1) {
+				bad = 1;
+			}
+		}
+
+		if (!bad) {
+			cout << setw(10) << STEP << setw(10) << MOD << "    "
+					<< "Good Choice" << endl << endl;
+		} else {
+			cout << setw(10) << STEP << setw(10) << MOD << "    "
+					<< "Bad Choice" << endl << endl;
+		}
+
+	}
+	return 0;
+}
+
