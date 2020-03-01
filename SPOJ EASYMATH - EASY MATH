@@ -1,0 +1,42 @@
+#include<iostream>
+
+using namespace std;
+
+long long gcd(long long a, long long b) {
+	if (b == 0) {
+		return a;
+	}
+	return gcd(b, a % b);
+}
+
+long long lcm(long long a, long long b) {
+	return ((a * b) / gcd(a, b));
+}
+
+int inc_exe(long long num = 0, long long idx = 0, long long d = 1, long long sign = 1, long long *p = NULL) {
+
+	if (idx == 5) {
+		return sign * num / d;
+	}
+
+	return inc_exe(num, idx + 1, d, sign, p)
+			+ inc_exe(num, idx + 1, lcm(d, (p[idx])), sign * -1, p);
+}
+
+int main() {
+
+	long long n, m, a, d ,tests;
+	cin >> tests;
+	while (tests--) {
+		cin >> n >> m >> a >> d;
+		long long div[5] = { a, a + d, a + (2 * d), a + (3 * d), a + (4 * d) };
+
+		long long ans;
+
+		ans = inc_exe(m, 0, 1, 1, div) - inc_exe(n - 1, 0, 1, 1, div);
+
+		cout << ans << endl;
+	}
+	return 0;
+}
+
