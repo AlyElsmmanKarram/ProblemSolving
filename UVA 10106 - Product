@@ -1,0 +1,36 @@
+#include<iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+int main() {
+	string num1, num2;
+	while (cin >> num1 >> num2) {
+
+		int a[(num1.size() + num2.size()) + 1] = { 0 };
+
+		reverse(num1.begin(), num1.end());
+		reverse(num2.begin(), num2.end());
+
+		for (unsigned int i = 0; i < num1.size(); i++) {
+			for (unsigned int j = 0; j < num2.size(); j++) {
+				a[i + j] += (num1[i] - '0') * (num2[j] - '0');
+			}
+		}
+
+		for (unsigned int i = 0; i < (num1.size() + num2.size()); i++) {
+			a[i + 1] += a[i] / 10;
+			a[i] = a[i] % 10;
+		}
+
+		int i = (num1.size() + num2.size());
+		while (i > 0 && a[i] == 0)
+			i--;
+		for (; i >= 0; i--) {
+			cout << a[i];
+		}
+		cout << endl;
+	}
+	return 0;
+}
+
