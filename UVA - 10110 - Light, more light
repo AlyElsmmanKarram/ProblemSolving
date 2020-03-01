@@ -1,0 +1,20 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main() {
+	unsigned int n;
+	scanf("%ud",&n);
+  
+	unsigned int square_root ;
+  
+	while (n) {
+		square_root = (unsigned int) sqrt(n);
+		printf("%s",(square_root * square_root) == n ? "yes\n" : "no\n");
+		scanf("%ud",&n);
+	}
+
+	return 0;
+}
+
