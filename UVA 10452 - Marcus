@@ -1,88 +1,64 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<vector>
+
 using namespace std;
-#define in freopen("in.txt","r",stdin);
-#define out freopen("out.txt","w",stdout);
-#define ios ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);//////////
-#define sz(v) ((long long)((v).size()))
-#define all(v) ((v).begin()),((v).end())
-#define allr(v) ((v).rbegin()),((v).rend())
-#define clr(v, d) memset(v, d, sizeof(v))
-#define MP make_pair
-#define s  second
-#define f  first
 
-const int OO = (int) 1e9;
+int n, m;
+string cobblestone_path[10];
+bool vis[10][10];
+vector<string> road;
 
-int dx[8] = { 0, 0, -1, 1, 1, 1, -1, -1 };
-int dy[8] = { 1, -1, 0, 0, 1, -1, 1, -1 };
-
-long long n, m, test, cnt, rows, flag;
-vector<string> maps, road;
-string r;
-bool vis[30][30];
-
-bool valid(int i, int j) {
-	return i >= 0 && i < sz(maps) && j >= 0 && j < sz(maps[i]);
+bool valid_direction(int x, int y) {
+	return x >= 0 && x < n && y >= 0 && y < m;
 }
 
-bool checkChar(char c) {
-	return (c != 'I' && c != 'E' && c != 'H' && c != 'O' && c != 'V' && c
-			!= 'A' && c != '@' && c != '#');
+bool valid_path(char c) {
+	return c == 'I' || c == 'E' || c == 'H' || c == 'O' || c == 'V' || c == 'A'
+			|| c == '#' || c == '@';
 }
 
-void DFS(int i, int j, int lasti, int lastj) {
-	if (!valid(i, j) || vis[i][j] || checkChar(maps[i][j])) {
+void directions(int x, int y, string s) {
+	if (!valid_direction(x, y) || !valid_path(cobblestone_path[x][y])
+			|| vis[x][y]) {
 		return;
 	}
+	vis[x][y] = true;
 
-	if (i == lasti && j == (lastj + 1)) {
-		road.push_back("right");
-	} else if (i == lasti && j == (lastj - 1)) {
-		road.push_back("left");
-	} else if (i == (lasti - 1) && j == lastj) {
-		road.push_back("forth");
-	}
+	directions(x, y + 1, "right");
+	directions(x, y - 1, "left");
+	directions(x - 1, y, "forth");
 
-	vis[i][j] = 1;
-
-	for (int x = 0; x < 3; x++) {
-		DFS(i + dx[x], j + dy[x], i, j);
-	}
-	return;
+	road.push_back(s);
 }
+
 int main() {
-	cin >> test;
-	while (test--) {
-		
-		cin >> m >> n;
-		
-		maps.clear();
-		road.clear();
-		clr(vis,0);
-		flag = 0;
-		
-		for (int i = 0; i < m; i++) {
-			cin >> r;
-			maps.push_back(r);
-		}
-		
-		for (int i = 0; i < sz(maps) && flag == 0; i++) {
-			for (int j = 0; j < sz(maps[i]) && flag == 0; j++) {
-				if (maps[i][j] == '@') {
-					DFS(i, j, i, j);
-					flag = 1;
+	int t, x, y;
+	cin >> t;
+	while (t--) {
+		cin >> n >> m;
+		for (int i = 0, f = 1; i < n; i++) {
+			cin >> cobblestone_path[i];
+			for (int j = 0; j < m && f; j++) {
+				if (cobblestone_path[i][j] == '@') {
+					x = i, y = j, f = 0;
 				}
 			}
 		}
-		
-		for (int i = 0; i < sz(road); i++) {
+		directions(x, y, "");
+
+		for (int i = road.size() - 1; i >= 0; i--) {
 			cout << road[i];
-			if (i != sz(road) - 1) {
+			if (i > 0 && i < (int) road.size() - 1) {
 				cout << " ";
 			}
 		}
 		cout << endl;
-		
+
+		//clear
+		road.clear();
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				vis[i][j] = 0;
 	}
 	return 0;
 }
