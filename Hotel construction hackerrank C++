@@ -1,0 +1,97 @@
+#include<iostream>
+#include<cmath>
+#include<cstdlib>
+#include <algorithm>
+#include<vector>
+#include<queue>//FIFO >> first in first out
+#include <tuple>
+#include <map>
+#include <stack> //LIFO >> last in first out
+#include <set>
+#include <iomanip>
+#include<fstream>
+#include <utility>
+
+using namespace std;
+
+#define all(v) ((v).begin()),((v).end())
+#define sz(v)  ((int)((v).size()))
+
+bool BFS(vector<vector<int>> & adjlist, int i, int j, int k) {
+	int number_of_cities = (int)adjlist.size();
+
+	queue<int> q;
+	q.push(i);
+	int sz = 1;
+	int top;
+
+	vector<int> vis(number_of_cities, 0);
+
+	bool x = 0 , y = 0;
+
+	while (!q.empty()) {
+		sz = (int)q.size();
+		while (sz--) {
+			top = q.front();
+			q.pop();
+			for(auto city : adjlist[top]){
+				if(!vis[city]){
+					q.push(city);
+					vis[city] = 1;
+
+					if(city == j){
+						x = 1;
+					}else if(city == k){
+						y = 1;
+					}
+				}
+			}
+		}
+    
+		if(x && y){
+			return true;
+		}else if(x || y){
+			return false;
+		}
+	}
+	return false;
+}
+
+void solve() {
+	int n, two;
+	cin >> n;
+	cin >> two;
+
+	vector<vector<int>> adjlist(n+1);
+	int from, to;
+	for (int i = 0; i < n; i++) {
+		cin >> from >> to;
+		from--, to--;
+		adjlist[from].push_back(to);
+		adjlist[to].push_back(from);
+	}
+
+	int cnt_positions = 0;
+
+	for (int i = 0; i < n; i++) {
+		for (int j = i + 1; j < n; j++) {
+			for (int k = j + 1; k < n; k++) {
+				if (BFS(adjlist, i, j, k)) {
+					cnt_positions++;
+				}
+			}
+		}
+	}
+
+	cout << cnt_positions << "\n";
+}
+
+int main() {
+//freopen("read.txt", "rt", stdin);
+	int t = 1;
+//cin >> t;
+	while (t--) {
+		solve();
+  }
+	return 0;
+}
